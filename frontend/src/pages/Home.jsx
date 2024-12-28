@@ -11,6 +11,7 @@ import WaitingForDriver from '../components/WaitForDriver';
 import {SocketContext} from '../context/socketContext'
 import {UserDataContext} from '../context/userContext'
 import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/Livetraking';
 
 
 
@@ -56,10 +57,10 @@ const Home = () => {
         
     })
 
-    socket.on('ride-start', ride => {
+    socket.on('ride-begins', ride => {
         console.log(ride)
         setWaitingForDriver(false)
-        navigate('riding',{ state: { ride } }) // Updated navigate to include ride data
+        navigate('/riding',{ state: { ride } }) // Updated navigate to include ride data
     })
 
 
@@ -208,7 +209,7 @@ const Home = () => {
         <div className='h-screen relative overflow-hidden'>
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <div className='h-screen w-screen'>
-                {/* image for temporary use  */}
+               <LiveTracking/>
                 
             </div>
             <div className=' flex flex-col justify-end h-screen absolute top-0 w-full '>

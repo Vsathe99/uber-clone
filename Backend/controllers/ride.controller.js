@@ -61,20 +61,21 @@ module.exports.confirmRide = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {rideId,captainId} = req.body;
-    console.log(rideId)
+    const { rideId, captainId } = req.body;
+
     try {
-        const ride = await rideService.confirmRide({rideId, captainId})
-        console.log(ride)
-        sendMessageToSocketId(ride.user.socketId,{
-            event:'ride-confirmed',
-            data:ride
+        const ride = await rideService.confirmRide({ rideId, captainId });
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
         })
-        console.log(ride)
-        return res.status(200).json(ride)
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({message:error.message})
+
+        return res.status(200).json(ride);
+    } catch (err) {
+
+        console.log(err);
+        return res.status(500).json({ message: err.message });
     }
 }
 
@@ -88,9 +89,9 @@ module.exports.startRide = async (req, res) => {
 
     try {
         const ride = await rideService.startRide({ rideId, otp });
-
+        console.log(ride.user.socketId)
         sendMessageToSocketId(ride.user.socketId, {
-            event: 'ride-start',
+            event:'ride-begins',
             data: ride
         })
 
@@ -107,10 +108,11 @@ module.exports.endRide = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { rideId } = req.body;
+    const { rideId,captainId } = req.body;
+    console.log(rideId)
 
     try {
-        const ride = await rideService.endRide({ rideId, captain: req.captain });
+        const ride = await rideService.endRide({ rideId, captai:captainId });
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-ended',
@@ -121,6 +123,7 @@ module.exports.endRide = async (req, res) => {
 
         return res.status(200).json(ride);
     } catch (err) {
+        console.log(err)
         return res.status(500).json({ message: err.message });
     } s
 }

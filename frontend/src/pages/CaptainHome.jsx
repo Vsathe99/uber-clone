@@ -65,10 +65,8 @@ const CaptainHome = () => {
         console.log(captain._id)
 
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-
             rideId: ride?._id,
-            captainId: captain?._id,
-
+            captainId: captain._id
 
         }, {
             headers: {

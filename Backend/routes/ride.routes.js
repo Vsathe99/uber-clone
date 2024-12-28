@@ -25,8 +25,9 @@ router.get('/get-fare',authMiddleware.authUser,
 router.post('/confirm',
   authMiddleware.authCaptain,
   [
-    body('rideId').isString().notEmpty().withMessage('Invalid ride id'),
-    body('captainId').isString().notEmpty().withMessage('Invalid ride id'),
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    body('captainId').isMongoId().withMessage('Invalid ride id'),
+   
   ],
   rideController.confirmRide)
 
@@ -40,6 +41,7 @@ router.post('/confirm',
 router.post('/end-ride',
     authMiddleware.authCaptain,
     body('rideId').isMongoId().withMessage('Invalid ride id'),
+    body('captainId').isMongoId().withMessage('Invalid ride id'),
     rideController.endRide
 )
 
